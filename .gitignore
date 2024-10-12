@@ -1,0 +1,37 @@
+# Ignore the build directory
+blockchain_network/third-party/build/
+
+# Build artifacts
+*.o
+*.a
+*.so
+*.dylib
+*.dll
+*.exe
+*.out
+*.class
+*.log
+
+# CMake files
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+
+# Compiled source
+*.obj
+*.bin
+
+# IDE files
+*.swp
+*.swo
+*.tmp
+*.user
+*.sublime-project
+*.sublime-workspace
+
+# Miscellaneous
+*.DS_Store
+*.idea/
+.vscode/
+.vscode/*
