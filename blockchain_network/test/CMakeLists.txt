@@ -31,10 +31,14 @@ add_executable(echo_client echo_client.cc)
 target_link_libraries(echo_server muduo_net muduo_base pthread)
 target_link_libraries(echo_client muduo_net muduo_base pthread)
 
-# Add test executable
-add_executable(test_echo test_echo.cc)
-target_link_libraries(test_echo ${GTEST_LIBRARIES} pthread muduo_net muduo_base)
+# Add test executable for integration tests
+add_executable(test_integration test_integration.cc)
+target_link_libraries(test_integration ${GTEST_LIBRARIES} pthread muduo_net muduo_base)
+
+# Add test executable for performance tests
+add_executable(test_performance test_performance.cc)
+target_link_libraries(test_performance ${GTEST_LIBRARIES} pthread muduo_net muduo_base)
 
 # Specify the installation rules
-install(TARGETS echo_server echo_client test_echo
+install(TARGETS echo_server echo_client test_integration test_performance
         RUNTIME DESTINATION bin)

@@ -1,5 +1,6 @@
 # Ignore the build directory
 blockchain_network/third-party/build/
+blockchain_network/test/build/
 
 # Build artifacts
 *.o

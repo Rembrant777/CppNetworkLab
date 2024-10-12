@@ -72,7 +72,6 @@ TEST(EchoServerIntegrationTest, BasicFunctionality) {
 }
 
 int main(int argc, char** argv) {
-    muduo::Logging::setLogLevel(muduo::Logger::DEBUG);
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
 }

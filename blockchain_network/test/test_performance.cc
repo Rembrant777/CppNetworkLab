@@ -9,6 +9,7 @@
 using namespace muduo;
 using namespace muduo::net;
 
+
 // Performance test
 TEST(EchoServerPerformanceTest, MultiThreadedClient) {
     const int clientCount = 10;
@@ -50,7 +51,6 @@ TEST(EchoServerPerformanceTest, MultiThreadedClient) {
 }
 
 int main(int argc, char** argv) {
-    muduo::Logging::setLogLevel(muduo::Logger::DEBUG);
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
 }
