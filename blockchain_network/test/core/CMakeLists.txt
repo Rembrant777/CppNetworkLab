@@ -12,7 +12,7 @@ find_package(Protobuf REQUIRED)
 #find_package(gRPC REQUIRED)
 
 # Include directories
-include_directories(${GTEST_INCLUDE_DIRS} ${Protobuf_INCLUDE_DIRS} ../core)
+include_directories(${GTEST_INCLUDE_DIRS} ${Protobuf_INCLUDE_DIRS} ../../core)
 
 # List of test source files
 set(TEST_SOURCES
