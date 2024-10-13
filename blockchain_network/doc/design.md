@@ -4,16 +4,38 @@ This project aims to implement the core blockchain network protocol using both g
 Based on the [Bitcoin white paper](https://bitcoin.org/bitcoin.pdf) and [Bitcoin RPC](https://developer.bitcoin.org/reference/rpc/index.html) as references, the project is organized into several business modules:
 
 ## Core Blockchain Module
+* Scenario Description: Manages essential blockchain functionalities, including block retrieval and transaction operations. 
+
+
+### Responsibilities:
+* Manage basic blockchain functionalities such as block retrieval and blockchain information.
+* Handle block and transaction operations 
+
+### RPC APIs 
+* `getblock`
+* `getblockchaininfo`
+* `getblockcount`
+* `getrawtransaction`
+* `sendrawtransaction`
+
+### Use Case: 
+This module is the backbone of blockchain interaction, allowing for basic operations like fetching the current blockchain status and sending transactions. 
+
+### Unit Test Cases 
+
+### Integration Test Cases 
+
+### Performance Test Cases 
+
 
 ## Mining Module
 * Scenario Description:
-Manages essential blockchain functionalities, including block retrieval and transaction operations. 
+
 
 ### [RPC APIs]()
 
 ## Mining Module 
-* Scenario Description: 
-Interfaces with mining tasks to generate blocks and manage mining operations. 
+* Scenario Description:  Interfaces with mining tasks to generate blocks and manage mining operations.
 
 ### [RPC APIs]()
 
