@@ -13,6 +13,7 @@ find_package(Protobuf REQUIRED)
 
 # Include directories
 include_directories(${GTEST_INCLUDE_DIRS} ${Protobuf_INCLUDE_DIRS} ../../core)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../core)
 
 # List of test source files
 set(TEST_SOURCES

@@ -1,5 +1,7 @@
+#include <gtest/gtest.h>
 #include <muduo/net/TcpServer.h>
 #include <muduo/net/EventLoop.h>
+#include <muduo/net/InetAddress.h>
 #include <muduo/base/Logging.h>
 #include <muduo/net/Buffer.h>
 #include <muduo/net/TcpConnection.h>
@@ -7,6 +9,7 @@
 #include <string>
 #include <memory>
 #include "blockchain_rpc.pb.h" 
+#include "blockchain_rpc_client.h"
 
 using namespace muduo; 
 using namespace muduo::net; 
@@ -17,14 +20,14 @@ public:
         : server(loop, addr, "MockServer") {
         server.setMessageCallback(
             [&](const TcpConnectionPtr& conn, Buffer* buf, Timestamp receiveTimestamp) {
-                onMessage(conn, buf, receiveTime); 
+                onMessage(conn, buf, receiveTimestamp); 
             }
         ); 
         // here we start the mock server 
         server.start(); 
     }
 
-    void setResponseForMessageType(core::MessageType messageType, const google::protobuf::Message& response) {
+    void setResponseForMessageType(core::MessageType messageType, const std::string& response) {
         responses[messageType] = response; // Store expected response for the message type
     }
 
@@ -62,18 +65,22 @@ private:
 
 class BlockchainClientTest : public ::testing::Test {
 protected:
-    EventLoop loop; 
-    InetAddress serverAddr(8888);     
-    MockTcpServer mockServer{&loop, serverAddr}; 
-    BlockchainClient client{&loop, serverAddr}; 
+    EventLoop loop;
+    InetAddress serverAddr; 
+    MockTcpServer mockServer;  
+    BlockchainClient client; 
 
     void SetUp() override {
-        // setup mock server and let client connect to it 
-        loop.runAfter(0, [&]() {client.connect(); }); 
+        serverAddr = InetAddress("127.0.0.1", 8888);  
+        mockServer = MockTcpServer(&loop, serverAddr);  
+        client = BlockchainClient(&loop, serverAddr); 
+
+        // Start the mock server in a separate thread or non-blocking manner
+        loop.runAfter(0, [&]() { client.connect(); });
     }
 
     void TearDown() override {
-        client.disconnect(); 
+        client.close(); 
     }
 }; 
 
@@ -87,7 +94,7 @@ TEST_F(BlockchainClientTest, TestGetBlockRequest) {
     client.sendGetBlockRequest(1); 
 
     // run the event loop to process the request and response 
-    loop.loopOnce(); 
+    loop.loop(); 
 }
 
 TEST_F(BlockchainClientTest, TestGetBlockchainInfoRequest) {
@@ -97,7 +104,7 @@ TEST_F(BlockchainClientTest, TestGetBlockchainInfoRequest) {
     mockServer.setResponseForMessageType(core::GET_BLOCKCHAIN_INFO, mockResponse); 
 
     client.sendGetBlockchainInfoRequest(); 
-    loop.loopOnce(); 
+    loop.loop(); 
 }
 
 TEST_F(BlockchainClientTest, TestGetBlockCountRequest) {
@@ -106,7 +113,7 @@ TEST_F(BlockchainClientTest, TestGetBlockCountRequest) {
     mockServer.setResponseForMessageType(core::GET_BLOCK_COUNT, mockResponse); 
 
     client.sendGetBlockCountRequest(); 
-    loop.loopOnce(); 
+    loop.loop(); 
 }
 
 TEST_F(BlockchainClientTest, TestGetRawTransactionRequest) {
@@ -115,19 +122,19 @@ TEST_F(BlockchainClientTest, TestGetRawTransactionRequest) {
     mockServer.setResponseForMessageType(core::GET_RAW_TRANSACTION, mockResponse); 
 
     client.sendGetRawTransactionRequest("txid_1"); 
-    loop.loopOnce(); 
+    loop.loop(); 
 }
 
 TEST_F(BlockchainClientTest, TestSendRawTransactionRequest) {
-    core::sendRawTransactionResponse mockResponse; 
+    core::SendRawTransactionResponse mockResponse; 
     mockResponse.set_success(true); 
     mockServer.setResponseForMessageType(core::SEND_RAW_TRANSACTION, mockResponse); 
 
     client.setSendRawTransactionRequest("Mock Raw Transaction"); 
-    loop.loopOnce(); 
+    loop.loop(); 
 }
 
 int main(int argc, char** argv) {
     testing::InitGoogleTest(&argc, argv); 
-    reutrn RUN_ALL_TESTS(); 
+    return RUN_ALL_TESTS(); 
 }
