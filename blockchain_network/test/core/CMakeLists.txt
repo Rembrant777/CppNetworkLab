@@ -11,6 +11,21 @@ find_package(GTest REQUIRED)
 find_package(Protobuf REQUIRED)
 #find_package(gRPC REQUIRED)
 
+# Get the installation prefix from the environment or use a default value
+if(NOT DEFINED INSTALL_DIR)
+    set(INSTALL_DIR "/usr/local")  # Default installation path
+endif()
+
+# Specify the include directories for Muduo
+include_directories(${SOURCE_DIR}/../muduo/include)
+
+# Specify the Muduo libraries location
+link_directories(${SOURCE_DIR}/../muduo/lib)
+
+# Find and link the necessary libraries
+find_package(Boost REQUIRED)   # If Boost is needed
+find_package(Threads REQUIRED)
+
 # Include directories
 include_directories(${GTEST_INCLUDE_DIRS} ${Protobuf_INCLUDE_DIRS} ../../core)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../core)

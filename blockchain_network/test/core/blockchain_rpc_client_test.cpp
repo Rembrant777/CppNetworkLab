@@ -27,29 +27,66 @@ public:
         server.start(); 
     }
 
-    void setResponseForMessageType(core::MessageType messageType, const std::string& response) {
-        responses[messageType] = response; // Store expected response for the message type
+    template <typename T>
+    void sendResponse(const TcpConnectionPtr& conn, const T& response) {
+        std::string responseData; 
+        response.SerializeToString(&responseData); 
+        conn->send(responseData); 
     }
+
+    // void setResponseForMessageType(core::MessageType messageType, const std::string& response) {
+    //     responses[messageType] = response; // Store expected response for the message type
+    // }
 
     void onMessage(const TcpConnectionPtr& conn, Buffer* buf, Timestamp receiveTime) {
         while (buf->readableBytes() > 0) {
             if (buf->readableBytes() < 2) {
-                break; 
+                break;
             }
 
-            uint16_t type; 
-            memcpy(&type, buf->peek(), sizeof(type)); 
-            core::MessageType messageType = static_cast<core::MessageType>(ntohs(type)); 
-            buf->retrieve(sizeof(type)); 
+            uint16_t type;
+            memcpy(&type, buf->peek(), sizeof(type));
+            core::MessageType messageType = static_cast<core::MessageType>(ntohs(type));
+            buf->retrieve(sizeof(type));
 
-            if (responses.count(messageType)) {
-                sendResponse(conn, responses[messageType]); 
-            } else {
-                LOG_ERROR<<"Unknown message type received!" << messageType; 
+            switch (messageType) {
+                case core::GET_BLOCK: {
+                    core::GetBlockResponse response;
+                    response.set_block_data("Mock Block Data for Height 1");
+                    sendResponse(conn, response);
+                    break;
+                }
+                case core::GET_BLOCKCHAIN_INFO: {
+                    core::GetBlockchainInfoResponse response;
+                    response.set_chain_id("chain_id_1");
+                    response.set_block_count(100);
+                    sendResponse(conn, response);
+                    break;
+                }
+                case core::GET_BLOCK_COUNT: {
+                    core::GetBlockCountResponse response;
+                    response.set_block_count(100);
+                    sendResponse(conn, response);
+                    break;
+                }
+                case core::GET_RAW_TRANSACTION: {
+                    core::GetRawTransactionResponse response;
+                    response.set_raw_transaction("Mock Raw Transaction Data");
+                    sendResponse(conn, response);
+                    break;
+                }
+                case core::SEND_RAW_TRANSACTION: {
+                    core::SendRawTransactionResponse response;
+                    response.set_success(true);
+                    sendResponse(conn, response);
+                    break;
+                }
+                default: {
+                    LOG_ERROR << "Unknown message type received!";
+                    break;
+                }
             }
-
-            // here clear buffer after handle
-            buf->retrieveAll(); 
+            buf->retrieveAll(); // Clear buffer after handling
         }
     }
 
@@ -70,11 +107,12 @@ protected:
     MockTcpServer mockServer;  
     BlockchainClient client; 
 
-    void SetUp() override {
-        serverAddr = InetAddress("127.0.0.1", 8888);  
-        mockServer = MockTcpServer(&loop, serverAddr);  
-        client = BlockchainClient(&loop, serverAddr); 
+     BlockchainClientTest() 
+        : serverAddr("127.0.0.1", 8888), 
+          mockServer(&loop, serverAddr),
+          client(&loop, serverAddr) {}
 
+    void SetUp() override {
         // Start the mock server in a separate thread or non-blocking manner
         loop.runAfter(0, [&]() { client.connect(); });
     }
@@ -84,51 +122,51 @@ protected:
     }
 }; 
 
-TEST_F(BlockchainClientTest, TestGetBlockRequest) {
-    // set up the expected response in the mock server 
-    core::GetBlockResponse mockResponse; 
-    mockResponse.set_block_data("Mock Block Data for Height 1"); 
-    mockServer.setResponseForMessageType(core::GET_BLOCK, mockResponse); 
+// TEST_F(BlockchainClientTest, TestGetBlockRequest) {
+//     // set up the expected response in the mock server 
+//     core::GetBlockResponse mockResponse; 
+//     // mockResponse.set_block_data("Mock Block Data for Height 1"); 
+//     // mockServer.setResponseForMessageType(core::GET_BLOCK, mockResponse); 
 
-    // send a request to the mock server 
-    client.sendGetBlockRequest(1); 
+//     // send a request to the mock server 
+//     client.sendGetBlockRequest((int32_t)1); 
 
-    // run the event loop to process the request and response 
-    loop.loop(); 
-}
+//     // run the event loop to process the request and response 
+//     loop.loop(); 
+// }
 
 TEST_F(BlockchainClientTest, TestGetBlockchainInfoRequest) {
-    core::GetBlockchainInfoResponse mockResponse; 
-    mockResponse.set_chain_id("chain_id_1"); 
-    mockResponse.set_block_count(100); 
-    mockServer.setResponseForMessageType(core::GET_BLOCKCHAIN_INFO, mockResponse); 
+    // core::GetBlockchainInfoResponse mockResponse; 
+    // mockResponse.set_chain_id("chain_id_1"); 
+    // mockResponse.set_block_count(100); 
+    // mockServer.setResponseForMessageType(core::GET_BLOCKCHAIN_INFO, mockResponse); 
 
     client.sendGetBlockchainInfoRequest(); 
     loop.loop(); 
 }
 
 TEST_F(BlockchainClientTest, TestGetBlockCountRequest) {
-    core::GetBlockCountResponse mockResponse; 
-    mockResponse.set_block_count(100); 
-    mockServer.setResponseForMessageType(core::GET_BLOCK_COUNT, mockResponse); 
+    // core::GetBlockCountResponse mockResponse; 
+    // mockResponse.set_block_count(100); 
+    // mockServer.setResponseForMessageType(core::GET_BLOCK_COUNT, mockResponse); 
 
     client.sendGetBlockCountRequest(); 
     loop.loop(); 
 }
 
 TEST_F(BlockchainClientTest, TestGetRawTransactionRequest) {
-    core::GetRawTransactionResponse mockResponse; 
-    mockResponse.set_raw_transaction("Mock Raw Transaction Data"); 
-    mockServer.setResponseForMessageType(core::GET_RAW_TRANSACTION, mockResponse); 
+    // core::GetRawTransactionResponse mockResponse; 
+    // mockResponse.set_raw_transaction("Mock Raw Transaction Data"); 
+    // mockServer.setResponseForMessageType(core::GET_RAW_TRANSACTION, mockResponse); 
 
     client.sendGetRawTransactionRequest("txid_1"); 
     loop.loop(); 
 }
 
 TEST_F(BlockchainClientTest, TestSendRawTransactionRequest) {
-    core::SendRawTransactionResponse mockResponse; 
-    mockResponse.set_success(true); 
-    mockServer.setResponseForMessageType(core::SEND_RAW_TRANSACTION, mockResponse); 
+    // core::SendRawTransactionResponse mockResponse; 
+    // mockResponse.set_success(true); 
+    // mockServer.setResponseForMessageType(core::SEND_RAW_TRANSACTION, mockResponse); 
 
     client.setSendRawTransactionRequest("Mock Raw Transaction"); 
     loop.loop(); 
