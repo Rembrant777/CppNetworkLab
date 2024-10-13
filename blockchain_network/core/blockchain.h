@@ -7,7 +7,7 @@
 
 class Block {
 public:
-    Block(); 
+    Block(int index, const std::string& previousHash, const std::string& data);
 
     int getIndex() const; 
     const std::string& getPreviousHash() const; 

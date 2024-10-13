@@ -99,7 +99,7 @@ private:
 
 int main(int argc, char* argv[]) {
     EventLoop loop; 
-    InternetAddress listenAddr(8888); 
+    InetAddress listenAddr(8888); 
     TcpServer server(&loop, listenAddr, "BlockchainServer"); 
 
     BlockchainServiceImpl service; 

@@ -53,7 +53,7 @@ Block Blockchain::getBlock(int index) const {
         throw std::out_of_range("Block index out of range"); 
     }
 
-    reutrn chain[index]; 
+    return chain[index]; 
 }
 
 std::string Blockchain::getBlockchainInfo() const {
