@@ -29,7 +29,7 @@ public:
 
     void addBlock(const std::string& data); // add a new block to the chain 
     Block getBlock(int index) const; // retrieve a block by giving index 
-    std::string getBlockchainINfo() const; // get metadata info of current block
+    std::string getBlockchainInfo() const; // get metadata info of current block
     int getBlockCount() const; // retrieve current chain's block number 
 
 private:

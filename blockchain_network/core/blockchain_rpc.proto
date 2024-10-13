@@ -1,0 +1,70 @@
+syntax = "proto3"; 
+
+package core; 
+
+// request 
+message GetBlockRequest {
+    // height of the block 
+    int32 block_height = 1; 
+}
+
+message GetBlockchainInfoRequest {}
+
+message GetBlockCountRequest {}
+
+message GetRawTransactionRequest {
+    // transaction ID 
+    string txid = 1; 
+}
+
+message SendRawTransactionRequest {
+    // initial raw transaction
+    string raw_transaction = 1; 
+}
+
+// response message 
+message GetBlockResponse {
+    // data content of the block 
+    string block_data = 1; 
+}
+
+message GetBlockchainInfoResponse {
+    // id of chain 
+    string chain_id = 1; 
+    // number of the blocks in current chain 
+    int32 block_count = 2; 
+}
+
+message GetBlockCountResponse {
+    // block count in current chain 
+    int32 block_count = 1; 
+}
+
+message GetRawTransactionResponse {
+    // raw transaction init data content 
+    string raw_transaction = 1; 
+}
+
+message SendRawTransactionResponse {
+    // transaction send success or fail status 
+    bool success = 1; 
+}
+
+
+// RPC API define 
+service BlockchainService {
+    // block metadata query service 
+    rpc GetBlock(GetBlockRequest) returns (GetBlockResponse); 
+
+    // block chain metadata info query service 
+    rpc GetBlockchainINfo(GetBlockchainInfoRequest) returns (GetBlockchainInfoResponse); 
+
+    // block chain block count request 
+    rpc GetBlockCount(GetBlockCountRequest) returns (GetBlockCountResponse); 
+
+    // get raw transaction request 
+    rpc GetRawTransaction(GetRawTransactionRequest) returns (GetRawTransactionResponse); 
+
+    // send raw transaction status service 
+    rpc SendRawTransaction(SendRawTransactionRequest) returns (SendRawTransactionResponse); 
+}
