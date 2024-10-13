@@ -9,10 +9,10 @@ set(CMAKE_CXX_STANDARD 11)
 # Find required packages
 find_package(GTest REQUIRED)
 find_package(Protobuf REQUIRED)
-find_package(gRPC REQUIRED)
+#find_package(gRPC REQUIRED)
 
 # Include directories
-include_directories(${GTEST_INCLUDE_DIRS} ${Protobuf_INCLUDE_DIRS} ${gRPC_INCLUDE_DIRS} ../core)
+include_directories(${GTEST_INCLUDE_DIRS} ${Protobuf_INCLUDE_DIRS} ../core)
 
 # List of test source files
 set(TEST_SOURCES
@@ -31,7 +31,7 @@ foreach(TEST_SOURCE ${TEST_SOURCES})
     add_executable(${EXECUTABLE_NAME} ${TEST_SOURCE})
 
     # Link libraries for the test executable
-    target_link_libraries(${EXECUTABLE_NAME} GTest::GTest GTest::Main ${Protobuf_LIBRARIES} ${gRPC_LIBRARIES})
+    target_link_libraries(${EXECUTABLE_NAME} GTest::GTest GTest::Main ${Protobuf_LIBRARIES})
 
     # Enable C++ exceptions for GTest
     set_target_properties(${EXECUTABLE_NAME} PROPERTIES
