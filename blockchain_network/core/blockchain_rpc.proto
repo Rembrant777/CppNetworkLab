@@ -2,6 +2,15 @@ syntax = "proto3";
 
 package core; 
 
+// Message types enumeration 
+enum MessageType {
+    GET_BLOCK = 0; 
+    GET_BLOCKCHAIN_INFO = 1; 
+    GET_BLOCK_COUNT = 2; 
+    GET_RAW_TRANSACTION = 3; 
+    SEND_RAW_TRANSACTION = 4; 
+}
+
 // request 
 message GetBlockRequest {
     // height of the block 
@@ -41,19 +50,19 @@ message GetBlockCountResponse {
 }
 
 message GetRawTransactionResponse {
-    // raw transaction init data content 
+    // Raw transaction init data content 
     string raw_transaction = 1; 
 }
 
 message SendRawTransactionResponse {
-    // transaction send success or fail status 
+    // Transaction send success or fail status 
     bool success = 1; 
 }
 
 
-// RPC API define 
+// RPC API definition  
 service BlockchainService {
-    // block metadata query service 
+    // Block metadata query service 
     rpc GetBlock(GetBlockRequest) returns (GetBlockResponse); 
 
     // block chain metadata info query service 

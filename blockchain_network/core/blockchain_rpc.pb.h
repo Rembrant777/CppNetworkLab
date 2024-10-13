@@ -29,6 +29,7 @@
 #include <google/protobuf/message.h>
 #include <google/protobuf/repeated_field.h>  // IWYU pragma: export
 #include <google/protobuf/extension_set.h>  // IWYU pragma: export
+#include <google/protobuf/generated_enum_reflection.h>
 #include <google/protobuf/unknown_field_set.h>
 // @@protoc_insertion_point(includes)
 #define PROTOBUF_INTERNAL_EXPORT_protobuf_blockchain_5frpc_2eproto 
@@ -93,6 +94,30 @@ template<> ::core::SendRawTransactionResponse* Arena::CreateMaybeMessage<::core:
 }  // namespace google
 namespace core {
 
+enum MessageType {
+  GET_BLOCK = 0,
+  GET_BLOCKCHAIN_INFO = 1,
+  GET_BLOCK_COUNT = 2,
+  GET_RAW_TRANSACTION = 3,
+  SEND_RAW_TRANSACTION = 4,
+  MessageType_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  MessageType_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+};
+bool MessageType_IsValid(int value);
+const MessageType MessageType_MIN = GET_BLOCK;
+const MessageType MessageType_MAX = SEND_RAW_TRANSACTION;
+const int MessageType_ARRAYSIZE = MessageType_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* MessageType_descriptor();
+inline const ::std::string& MessageType_Name(MessageType value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    MessageType_descriptor(), value);
+}
+inline bool MessageType_Parse(
+    const ::std::string& name, MessageType* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<MessageType>(
+    MessageType_descriptor(), name, value);
+}
 // ===================================================================
 
 class GetBlockRequest : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:core.GetBlockRequest) */ {
@@ -1549,6 +1574,18 @@ inline void SendRawTransactionResponse::set_success(bool value) {
 // @@protoc_insertion_point(namespace_scope)
 
 }  // namespace core
+
+namespace google {
+namespace protobuf {
+
+template <> struct is_proto_enum< ::core::MessageType> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::core::MessageType>() {
+  return ::core::MessageType_descriptor();
+}
+
+}  // namespace protobuf
+}  // namespace google
 
 // @@protoc_insertion_point(global_scope)
 

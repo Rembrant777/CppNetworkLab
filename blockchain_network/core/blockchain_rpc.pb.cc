@@ -226,6 +226,7 @@ void InitDefaults() {
 }
 
 ::google::protobuf::Metadata file_level_metadata[10];
+const ::google::protobuf::EnumDescriptor* file_level_enum_descriptors[1];
 
 const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
@@ -318,7 +319,7 @@ void protobuf_AssignDescriptors() {
   AddDescriptors();
   AssignDescriptors(
       "blockchain_rpc.proto", schemas, file_default_instances, TableStruct::offsets,
-      file_level_metadata, NULL, NULL);
+      file_level_metadata, file_level_enum_descriptors, NULL);
 }
 
 void protobuf_AssignDescriptorsOnce() {
@@ -346,21 +347,24 @@ void AddDescriptorsImpl() {
       "\002 \001(\005\",\n\025GetBlockCountResponse\022\023\n\013block_"
       "count\030\001 \001(\005\"4\n\031GetRawTransactionResponse"
       "\022\027\n\017raw_transaction\030\001 \001(\t\"-\n\032SendRawTran"
-      "sactionResponse\022\017\n\007success\030\001 \001(\0102\235\003\n\021Blo"
-      "ckchainService\0229\n\010GetBlock\022\025.core.GetBlo"
-      "ckRequest\032\026.core.GetBlockResponse\022T\n\021Get"
-      "BlockchainINfo\022\036.core.GetBlockchainInfoR"
-      "equest\032\037.core.GetBlockchainInfoResponse\022"
-      "H\n\rGetBlockCount\022\032.core.GetBlockCountReq"
-      "uest\032\033.core.GetBlockCountResponse\022T\n\021Get"
-      "RawTransaction\022\036.core.GetRawTransactionR"
-      "equest\032\037.core.GetRawTransactionResponse\022"
-      "W\n\022SendRawTransaction\022\037.core.SendRawTran"
-      "sactionRequest\032 .core.SendRawTransaction"
-      "Responseb\006proto3"
+      "sactionResponse\022\017\n\007success\030\001 \001(\010*}\n\013Mess"
+      "ageType\022\r\n\tGET_BLOCK\020\000\022\027\n\023GET_BLOCKCHAIN"
+      "_INFO\020\001\022\023\n\017GET_BLOCK_COUNT\020\002\022\027\n\023GET_RAW_"
+      "TRANSACTION\020\003\022\030\n\024SEND_RAW_TRANSACTION\020\0042"
+      "\235\003\n\021BlockchainService\0229\n\010GetBlock\022\025.core"
+      ".GetBlockRequest\032\026.core.GetBlockResponse"
+      "\022T\n\021GetBlockchainINfo\022\036.core.GetBlockcha"
+      "inInfoRequest\032\037.core.GetBlockchainInfoRe"
+      "sponse\022H\n\rGetBlockCount\022\032.core.GetBlockC"
+      "ountRequest\032\033.core.GetBlockCountResponse"
+      "\022T\n\021GetRawTransaction\022\036.core.GetRawTrans"
+      "actionRequest\032\037.core.GetRawTransactionRe"
+      "sponse\022W\n\022SendRawTransaction\022\037.core.Send"
+      "RawTransactionRequest\032 .core.SendRawTran"
+      "sactionResponseb\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 896);
+      descriptor, 1023);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "blockchain_rpc.proto", &protobuf_RegisterTypes);
 }
@@ -377,6 +381,23 @@ struct StaticDescriptorInitializer {
 } static_descriptor_initializer;
 }  // namespace protobuf_blockchain_5frpc_2eproto
 namespace core {
+const ::google::protobuf::EnumDescriptor* MessageType_descriptor() {
+  protobuf_blockchain_5frpc_2eproto::protobuf_AssignDescriptorsOnce();
+  return protobuf_blockchain_5frpc_2eproto::file_level_enum_descriptors[0];
+}
+bool MessageType_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+      return true;
+    default:
+      return false;
+  }
+}
+
 
 // ===================================================================
 
