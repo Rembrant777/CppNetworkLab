@@ -2,6 +2,7 @@
 blockchain_network/third-party/build/
 blockchain_network/test/build/
 blockchain_network/core/build/
+blockchain_network/test/core/build/
 
 # Build artifacts
 *.o
