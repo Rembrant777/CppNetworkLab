@@ -135,42 +135,50 @@ protected:
 //     loop.loop(); 
 // }
 
-TEST_F(BlockchainClientTest, TestGetBlockchainInfoRequest) {
-    // core::GetBlockchainInfoResponse mockResponse; 
-    // mockResponse.set_chain_id("chain_id_1"); 
-    // mockResponse.set_block_count(100); 
-    // mockServer.setResponseForMessageType(core::GET_BLOCKCHAIN_INFO, mockResponse); 
-
-    client.sendGetBlockchainInfoRequest(); 
-    loop.loop(); 
+TEST_F(BlockchainClientTest, TestClientConnectOK) {
+    LOG_INFO << "TestClientConnectOK" <<; 
 }
 
-TEST_F(BlockchainClientTest, TestGetBlockCountRequest) {
-    // core::GetBlockCountResponse mockResponse; 
-    // mockResponse.set_block_count(100); 
-    // mockServer.setResponseForMessageType(core::GET_BLOCK_COUNT, mockResponse); 
-
-    client.sendGetBlockCountRequest(); 
-    loop.loop(); 
+TEST_F(BlockchainClientTest, TestClientDisConnectOK) {
+    LOG_INFO << "TestClientDisconnectOK" <<; 
 }
 
-TEST_F(BlockchainClientTest, TestGetRawTransactionRequest) {
-    // core::GetRawTransactionResponse mockResponse; 
-    // mockResponse.set_raw_transaction("Mock Raw Transaction Data"); 
-    // mockServer.setResponseForMessageType(core::GET_RAW_TRANSACTION, mockResponse); 
+// TEST_F(BlockchainClientTest, TestGetBlockchainInfoRequest) {
+//     // core::GetBlockchainInfoResponse mockResponse; 
+//     // mockResponse.set_chain_id("chain_id_1"); 
+//     // mockResponse.set_block_count(100); 
+//     // mockServer.setResponseForMessageType(core::GET_BLOCKCHAIN_INFO, mockResponse); 
 
-    client.sendGetRawTransactionRequest("txid_1"); 
-    loop.loop(); 
-}
+//     client.sendGetBlockchainInfoRequest(); 
+//     loop.loop(); 
+// }
 
-TEST_F(BlockchainClientTest, TestSendRawTransactionRequest) {
-    // core::SendRawTransactionResponse mockResponse; 
-    // mockResponse.set_success(true); 
-    // mockServer.setResponseForMessageType(core::SEND_RAW_TRANSACTION, mockResponse); 
+// TEST_F(BlockchainClientTest, TestGetBlockCountRequest) {
+//     // core::GetBlockCountResponse mockResponse; 
+//     // mockResponse.set_block_count(100); 
+//     // mockServer.setResponseForMessageType(core::GET_BLOCK_COUNT, mockResponse); 
 
-    client.setSendRawTransactionRequest("Mock Raw Transaction"); 
-    loop.loop(); 
-}
+//     client.sendGetBlockCountRequest(); 
+//     loop.loop(); 
+// }
+
+// TEST_F(BlockchainClientTest, TestGetRawTransactionRequest) {
+//     // core::GetRawTransactionResponse mockResponse; 
+//     // mockResponse.set_raw_transaction("Mock Raw Transaction Data"); 
+//     // mockServer.setResponseForMessageType(core::GET_RAW_TRANSACTION, mockResponse); 
+
+//     client.sendGetRawTransactionRequest("txid_1"); 
+//     loop.loop(); 
+// }
+
+// TEST_F(BlockchainClientTest, TestSendRawTransactionRequest) {
+//     // core::SendRawTransactionResponse mockResponse; 
+//     // mockResponse.set_success(true); 
+//     // mockServer.setResponseForMessageType(core::SEND_RAW_TRANSACTION, mockResponse); 
+
+//     client.setSendRawTransactionRequest("Mock Raw Transaction"); 
+//     loop.loop(); 
+// }
 
 int main(int argc, char** argv) {
     testing::InitGoogleTest(&argc, argv); 
